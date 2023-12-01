@@ -7,6 +7,8 @@ const Grid = styled.div`
   width: ${(props) => props.width};
   display: grid;
   grid-template-columns: ${(props) => props.columns};
+  justify-content: center;
+  justify-items: center;
 `;
 
 function Memory(props) {
@@ -49,7 +51,7 @@ function Memory(props) {
       if (order.toString() === correct.toString()) {
         if (level > 4) {
           setCardsNum(9);
-          setWidth("510px");
+          // setWidth("510px");
           setColumns("1fr 1fr 1fr");
           setTimer(1);
         }
@@ -81,6 +83,30 @@ function Memory(props) {
     );
     setCorrect(Array.from({ length: cardsNum }, (v, i) => i + 1));
   }, [cardsNum]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // 화면 크기에 따라 다른 조건을 추가할 수 있습니다.
+      if (window.innerWidth <= 799) {
+        // 모바일 화면일 때
+        setWidth("80vw");
+      } else {
+        // 모바일 화면이 아닐 때
+        setWidth("340px");
+      }
+    };
+
+    // 초기 실행
+    handleResize();
+
+    // 리사이즈 이벤트 리스너 등록
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트 언마운트 시 리스너 제거
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // 두 번째 useEffect에서는 의존성 배열이 없으므로 한 번만 실행됩니다.
 
   return (
     <div className="memoryGame">
