@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { BackButton } from "./Home";
+import { Button } from "@mui/material";
 
 function BreakOut(props) {
+  const [gameStartedB, setGameStartedB] = useState(false);
+  const [gameVisibleB, setGameVisibleB] = useState(false);
   useEffect(() => {
     const canvas = document.getElementById("myCanvas");
+    if (!canvas) {
+      console.error("Canvas element not found");
+      return;
+    }
     const ctx = canvas.getContext("2d");
     const ballRadius = 10;
 
@@ -42,10 +49,6 @@ function BreakOut(props) {
       }
     }
 
-    document.addEventListener("keydown", keyDownHandler, false);
-    document.addEventListener("keyup", keyUpHandler, false);
-    document.addEventListener("mousemove", mouseMoveHandler, false);
-
     // 키보드 조작
     function keyDownHandler(e) {
       if (e.keyCode == 39) {
@@ -64,12 +67,25 @@ function BreakOut(props) {
       }
     }
 
+    const touchMoveHandler = (e) => {
+      const relativeX = e.touches[0].clientX - canvas.offsetLeft;
+      if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth / 2;
+      }
+    };
+
     function mouseMoveHandler(e) {
       const relativeX = e.clientX - canvas.offsetLeft;
       if (relativeX > 0 && relativeX < canvas.width) {
         paddleX = relativeX - paddleWidth / 2;
       }
     }
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+    document.addEventListener("mousemove", mouseMoveHandler, false);
+    document.addEventListener("touchstart", touchMoveHandler, false);
+    document.addEventListener("touchmove", touchMoveHandler, false);
 
     // 벽돌에 닿으면 사라지기
     function collisionDetection() {
@@ -191,9 +207,12 @@ function BreakOut(props) {
           // 생명 빼는 방식으로 구현
           lives--;
           if (!lives) {
-            alert("GAME OVER");
-            alert("재도전 하시겠습니까?");
-            document.location.reload();
+            const shouldRestart = window.confirm(
+              "GAME OVER\n재도전 하시겠습니까?"
+            );
+            if (shouldRestart) {
+              restartGame();
+            }
           } else {
             x = canvas.width / 2;
             y = canvas.height - 30;
@@ -216,11 +235,48 @@ function BreakOut(props) {
     }
 
     draw();
-  }, []);
+  }, [gameStartedB]);
+
+  // 게임 시작 버튼 클릭 시 게임 시작 및 가시성 활성화
+  const startGame = () => {
+    setGameStartedB(true);
+    setGameVisibleB(true);
+  };
+
+  // 게임 재시작 버튼 클릭 시
+  const restartGame = () => {
+    // 게임 재시작 로직
+    setGameVisibleB(true); // 캔버스 보이기
+    setGameStartedB(true); // 게임 시작 상태로 변경
+    setLives(3); // 생명 초기화 (만약 lives 상태가 있는 경우)
+
+    // 공, 패들, 벽돌 등의 초기화 로직이 필요하다면 여기에서 수행
+    initializeGame();
+
+    // 게임 시작
+    draw();
+  };
+
+  // 게임 초기화 로직을 수행 (공, 패들, 벽돌 초기 위치 설정 등)
+  const initializeGame = () => {
+    x = canvas.width / 2;
+    y = canvas.height - 30;
+    dx = Math.random() * 4 + 1;
+    dy = Math.random() * 4 - 1;
+    paddleX = (canvas.width - paddleWidth) / 2;
+  };
   return (
     <div className="breakout">
       <h1>Break Out!</h1>
-      <canvas id="myCanvas" width="560" height="400" />
+      <span>막대를 이용해 벽돌을 제거하세요!</span>
+      <div className="startBtn">
+        {!gameStartedB && (
+          <Button variant="contained" color="success" onClick={startGame}>
+            게임 시작
+          </Button>
+        )}
+      </div>
+      {gameVisibleB && <canvas id="myCanvas" width="560" height="400" />}
       <div className="backBtn">
         <BackButton />
       </div>

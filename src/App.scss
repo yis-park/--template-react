@@ -9,8 +9,15 @@ a {
 }
 .home,
 .breakout,
-.memoryGame {
+.memoryGame,
+.mario,
+.finished {
   padding: 10px;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 .home h1 {
   text-align: center;
@@ -50,11 +57,13 @@ canvas {
   box-sizing: border-box;
 }
 
-.backBtn {
+.backBtn,
+.startBtn {
   display: block;
   text-align: center;
   display: flex;
   justify-content: center;
+  margin: 5px;
 }
 
 // memoryGame
@@ -89,7 +98,7 @@ canvas {
   }
   .gameGrid {
     background-color: gray;
-    width: 25vw;
+    width: 28vw;
     height: 150px;
     line-height: 150px;
     border-radius: 15px;

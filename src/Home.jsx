@@ -27,7 +27,7 @@ function Home() {
               <Link to="/memory">📸 Memory game</Link>
             </li>
             <li>
-              <Link>🕹️ Mario (testing ...)</Link>
+              <Link to="/mario">🕹️ Mario (testing ...)</Link>
             </li>
           </ul>
         </nav>

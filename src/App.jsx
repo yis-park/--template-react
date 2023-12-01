@@ -14,6 +14,7 @@ import Home from "./Home";
 import BreakOut from "./BreakOut";
 import { Route, Routes } from "react-router-dom";
 import Memory from "./Memory";
+import Mario from "./Mario";
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -36,7 +37,14 @@ function App() {
       },
     })
   );
-
+  // 빌드시 콘솔 삭제
+  if (process.env.NODE_ENV === "production") {
+    console = window.console || {};
+    console.log = function no_console() {};
+    console.warn = function no_console() {};
+    console.error = function () {};
+  }
+  
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -75,6 +83,7 @@ function App() {
               <Route path="/" element={<Home theme={theme} />} />
               <Route path="/breakOut" element={<BreakOut />} />
               <Route path="/memory" element={<Memory />} />
+              <Route path="/mario" element={<Mario />} />
             </Routes>
           </div>
         </Box>
