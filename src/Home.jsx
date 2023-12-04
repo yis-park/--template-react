@@ -15,7 +15,7 @@ function Home() {
   return (
     <div className="home">
       <h1>Welcome</h1>
-      <hr />
+
       <h2>Select the game you want.</h2>
       <div className="navBox">
         <nav>

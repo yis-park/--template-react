@@ -32,6 +32,8 @@ function Memory(props) {
   const clickHandler = (a, b) => {
     if (time === 0) setOrder([...order, a]);
   };
+
+  // 타이머 설정
   useEffect(() => {
     if (level < 6) {
       setTime(6 - level);
@@ -53,8 +55,8 @@ function Memory(props) {
     }
   }, [gameStarted, time]);
 
+  // 6레벨 부터 2*2=>3*3, 맞췄을때, 틀렸을때 출력
   useEffect(() => {
-    console.log("click : " + order, cardsNum);
     if (gameStarted && order.length === cardsNum) {
       if (order.toString() === correct.toString()) {
         if (level > 4) {
@@ -83,6 +85,7 @@ function Memory(props) {
     }
   }, [order, gameStarted, level, correct, timer, cardsNum]);
 
+  // 숫자 랜덤배치
   useEffect(() => {
     setHowMany(
       Array.from({ length: cardsNum }, (v, i) => i + 1).sort(
@@ -92,6 +95,7 @@ function Memory(props) {
     setCorrect(Array.from({ length: cardsNum }, (v, i) => i + 1));
   }, [cardsNum]);
 
+  // 반응형
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 799) {
