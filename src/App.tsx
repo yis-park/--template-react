@@ -1,5 +1,6 @@
 import "./App.scss";
 import { createContext, useMemo, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import {
   Box,
   CssBaseline,
@@ -7,19 +8,18 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+
 import Home from "./Home";
 import BreakOut from "./BreakOut";
-import { Route, Routes } from "react-router-dom";
 import Memory from "./Memory";
 import Mario from "./Mario";
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 function App() {
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState<"light" | "dark">("light");
 
   const colorMode = useMemo(
     () => ({
@@ -29,14 +29,8 @@ function App() {
     }),
     []
   );
+  const theme = useMemo(() => createTheme({ palette: { mode } }), [mode]);
 
-  const theme = useMemo(() =>
-    createTheme({
-      palette: {
-        mode,
-      },
-    })
-  );
   // 빌드시 콘솔 삭제
   if (process.env.NODE_ENV === "production") {
     console = window.console || {};
@@ -44,7 +38,7 @@ function App() {
     console.warn = function no_console() {};
     console.error = function () {};
   }
-  
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>

@@ -1,7 +1,6 @@
-import React from "react";
 import { BackButton } from "./Home";
 
-function Mario(props) {
+const Mario: React.FC = () => {
   return (
     <div className="mario">
       <h1 style={{ height: "30vh", textAlign: "center" }}>준비중입니다.</h1>
@@ -10,6 +9,6 @@ function Mario(props) {
       </div>
     </div>
   );
-}
+};
 
 export default Mario;

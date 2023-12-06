@@ -3,33 +3,40 @@ import { BackButton } from "./Home";
 import styled from "styled-components";
 import { Button } from "@mui/material";
 
-const Grid = styled.div`
+interface GridProps {
+  width: string;
+  height?: string; // Make height optional
+  columns: string;
+}
+
+const Grid = styled.div<GridProps>`
   margin: auto;
   width: ${(props) => props.width};
+  height: ${(props) => props.height || "auto"};
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   justify-content: center;
   justify-items: center;
 `;
 
-function Memory(props) {
+function Memory() {
   const [width, setWidth] = useState("340px");
   const [columns, setColumns] = useState("1fr 1fr");
   const [level, setLevel] = useState(1);
   const [cardsNum, setCardsNum] = useState(4);
-  const [howMany, setHowMany] = useState(0);
+  const [howMany, setHowMany] = useState<number[]>([]);
   const [correct, setCorrect] = useState(
     Array.from({ length: cardsNum }, (v, i) => i + 1)
   );
-  const [order, setOrder] = useState([]);
+  const [order, setOrder] = useState<number[]>([]);
   const [timer, setTimer] = useState(1);
   const [time, setTime] = useState(1);
-  const [intervals, setIntervals] = useState();
+  const [intervals, setIntervals] = useState<number | undefined>();
 
   const [gameStarted, setGameStarted] = useState(false);
   const [gameVisible, setGameVisible] = useState(false);
 
-  const clickHandler = (a, b) => {
+  const clickHandler = (a: number, b: number) => {
     if (time === 0) setOrder([...order, a]);
   };
 
@@ -70,7 +77,9 @@ function Memory(props) {
         }
         console.log("done");
         alert("정답입니다.");
-        setHowMany(howMany.sort(() => Math.random() - 0.5));
+        setHowMany((prevHowMany) =>
+          [...prevHowMany].sort(() => Math.random() - 0.5)
+        );
         setLevel(level + 1);
         setTimer(1);
         setOrder([]);

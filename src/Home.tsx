@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Theme } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,8 +10,12 @@ export const BackButton = () => {
     </Button>
   );
 };
+interface HomeProps {
+  theme: Theme;
+  // 다른 필요한 props들도 정의할 수 있습니다.
+}
 
-function Home() {
+const Home: React.FC<HomeProps> = ({ theme }) => {
   return (
     <div className="home">
       <h1>Welcome</h1>
@@ -34,6 +38,6 @@ function Home() {
       </div>
     </div>
   );
-}
+};
 
 export default Home;
