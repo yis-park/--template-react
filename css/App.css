@@ -126,18 +126,24 @@ canvas {
   .gameGrid:hover {
     background-color: rgba(56, 133, 222, 0.664);
   }
-  .home .homeCard .css-ykcz1n-MuiPaper-root-MuiCard-root {
+  .css-ykcz1n-MuiPaper-root-MuiCard-root,
+  .css-lu6kle {
     display: flex;
-    flex-direction: column;
-    margin: 24px 10px;
+    flex-direction: column !important;
+    margin: 24px 10px !important;
   }
-  .home .homeCard .css-ykcz1n-MuiPaper-root-MuiCard-root .css-xlzqye {
-    width: 100%;
+  .css-ykcz1n-MuiPaper-root-MuiCard-root .css-xlzqye,
+  .css-lu6kle .css-xlzqye {
+    width: 100% !important;
   }
-  .home .homeCard .css-ykcz1n-MuiPaper-root-MuiCard-root .css-1ndgitk {
-    justify-content: center;
+  .css-ykcz1n-MuiPaper-root-MuiCard-root .css-1ndgitk,
+  .css-lu6kle .css-1ndgitk {
+    justify-content: center !important;
   }
-  .home .homeCard .css-ykcz1n-MuiPaper-root-MuiCard-root img {
-    margin: 0 auto;
+  .css-ykcz1n-MuiPaper-root-MuiCard-root img,
+  .css-ykcz1n-MuiPaper-root-MuiCard-root .css-13ce07h,
+  .css-lu6kle img,
+  .css-lu6kle .css-13ce07h {
+    margin: 0 auto !important;
   }
 }

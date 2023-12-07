@@ -128,24 +128,23 @@ canvas {
       background-color: rgba(56, 133, 222, 0.664);
     }
   }
-  .home {
-    .homeCard {
-      .css-ykcz1n-MuiPaper-root-MuiCard-root {
-        display: flex;
-        flex-direction: column;
-        margin: 24px 10px;
-        // 설명 Box
-        .css-xlzqye {
-          width: 100%;
-        }
-        // 재생아이콘 box
-        .css-1ndgitk {
-          justify-content: center;
-        }
-        img {
-          margin: 0 auto;
-        }
-      }
+  // home
+  .css-ykcz1n-MuiPaper-root-MuiCard-root,
+  .css-lu6kle {
+    display: flex;
+    flex-direction: column !important;
+    margin: 24px 10px !important;
+    // 설명 Box
+    .css-xlzqye {
+      width: 100% !important;
+    }
+    // 재생아이콘 box
+    .css-1ndgitk {
+      justify-content: center !important;
+    }
+    img,
+    .css-13ce07h {
+      margin: 0 auto !important;
     }
   }
 }
