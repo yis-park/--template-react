@@ -49,7 +49,7 @@ function App() {
             color: "text.primary",
             borderRadius: 1,
             p: 3,
-            height: "100vh",
+            minHeight: "100vh",
           }}
         >
           <div

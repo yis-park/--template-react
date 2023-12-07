@@ -82,13 +82,30 @@ canvas {
       background-color: rgba(56, 133, 222, 0.664);
     }
   }
-}
-.memoryGame {
-  .memoryContent {
-    margin: 20px auto;
+
+  .memoryGame {
+    .memoryContent {
+      margin: 20px auto;
+    }
+  }
+  .home {
+    .homeCard {
+      .css-mg3627-MuiPaper-root-MuiCard-root {
+        display: flex;
+        width: 30vw;
+      }
+      .css-xlzqye {
+        width: 100%;
+      }
+      .css-1ndgitk {
+        justify-content: center;
+      }
+      img {
+        margin: 0 auto;
+      }
+    }
   }
 }
-
 @media screen and (max-width: 799px) {
   .navBox {
     border: 1px solid gray;
@@ -109,6 +126,26 @@ canvas {
     cursor: pointer;
     &:hover {
       background-color: rgba(56, 133, 222, 0.664);
+    }
+  }
+  .home {
+    .homeCard {
+      .css-ykcz1n-MuiPaper-root-MuiCard-root {
+        display: flex;
+        flex-direction: column;
+        margin: 24px 10px;
+        // 설명 Box
+        .css-xlzqye {
+          width: 100%;
+        }
+        // 재생아이콘 box
+        .css-1ndgitk {
+          justify-content: center;
+        }
+        img {
+          margin: 0 auto;
+        }
+      }
     }
   }
 }
