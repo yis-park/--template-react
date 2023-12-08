@@ -1,33 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { BackButton } from "./Home";
 
-const BreakOut: React.FC = () => {
+const BreakOutCopy: React.FC = () => {
   const [state, setState] = useState<"play" | "pause" | "stop">("stop");
   const [gameStartedB, setGameStartedB] = useState(false);
   const [gameVisibleB, setGameVisibleB] = useState(false);
+  const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
 
   let lives = 3;
+
+  let rightPressed = false;
+  let leftPressed = false;
+  const brickRowCount = 6;
+  const brickColumnCount = 3;
+  const brickWidth = 75;
+  const brickHeight = 20;
+  const brickPadding = 10;
+  const brickOffsetTop = 30;
+  const brickOffsetLeft = 30;
+  const ballRadius = 10;
+
+  let score = 0;
+
+  const getRandomColor = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  };
+  let ballColor = getRandomColor();
+  const bricks: { x: number; y: number; status: number }[][] = [];
+
   const getGameStarted = (newState: any) => {
     setState(newState);
   };
-  const startGame = () => {
-    setGameStartedB(true);
-    setGameVisibleB(true);
-  };
 
   useEffect(() => {
-    const canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
     if (!canvas) {
       console.error("Canvas element not found");
       return;
     }
+
     const ctx = canvas && canvas.getContext("2d");
     if (!ctx) {
       console.error("Unable to get 2D context for canvas");
       return;
     }
-
-    const ballRadius = 10;
     let x = canvas.width / 2;
     let y = canvas.height - 30;
     let dx =
@@ -36,25 +54,25 @@ const BreakOut: React.FC = () => {
     let paddleHeight = 10;
     let paddleWidth = 75;
     let paddleX = (canvas.width - paddleWidth) / 2;
-    let rightPressed = false;
-    let leftPressed = false;
-    const brickRowCount = 6;
-    const brickColumnCount = 3;
-    const brickWidth = 75;
-    const brickHeight = 20;
-    const brickPadding = 10;
-    const brickOffsetTop = 30;
-    const brickOffsetLeft = 30;
-    let score = 0;
-    const getRandomColor = () => {
-      const r = Math.floor(Math.random() * 256);
-      const g = Math.floor(Math.random() * 256);
-      const b = Math.floor(Math.random() * 256);
-      return `rgb(${r}, ${g}, ${b})`;
+    // 게임 초기화 함수
+    const initializeGame = () => {
+      x = canvas.width / 2;
+      y = canvas.height - 30;
+      dx = Math.random() * 4 + 1;
+      dy = Math.random() * 4 - 1;
     };
-    let ballColor = getRandomColor();
-    const bricks: { x: number; y: number; status: number }[][] = [];
 
+    // 게임 재시작 함수
+    const restartGame = () => {
+      initializeGame();
+      setGameVisibleB(true);
+
+      lives = 3;
+
+      drawGame();
+    };
+
+    // 키 이벤트 핸들러
     const keyDownHandler = (e: any) => {
       if (e.keyCode === 39) {
         rightPressed = true;
@@ -85,12 +103,14 @@ const BreakOut: React.FC = () => {
       }
     };
 
+    // 이벤트 리스너 등록
     document.addEventListener("keydown", keyDownHandler, false);
     document.addEventListener("keyup", keyUpHandler, false);
     document.addEventListener("mousemove", mouseMoveHandler, false);
     document.addEventListener("touchstart", touchMoveHandler, false);
     document.addEventListener("touchmove", touchMoveHandler, false);
 
+    // 벽돌 초기화
     for (let c = 0; c < brickColumnCount; c++) {
       bricks[c] = [];
       for (let r = 0; r < brickRowCount; r++) {
@@ -175,9 +195,8 @@ const BreakOut: React.FC = () => {
       }
     };
 
+    // 게임 로직 함수
     const drawGame = () => {
-      if (!gameStartedB) return;
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawBricks();
       drawBall();
@@ -204,7 +223,7 @@ const BreakOut: React.FC = () => {
               "GAME OVER\n재도전 하시겠습니까?"
             );
             if (shouldRestart) {
-              restartGame();
+              setState("play");
             }
           } else {
             x = canvas.width / 2;
@@ -230,39 +249,35 @@ const BreakOut: React.FC = () => {
       }
     };
 
-    const initializeGame = () => {
-      x = canvas.width / 2;
-      y = canvas.height - 30;
-      dx = Math.random() * 4 + 1;
-      dy = Math.random() * 4 - 1;
-      paddleX = (canvas.width - paddleWidth) / 2;
-    };
-
-    const restartGame = () => {
+    // 초기 게임 로드 시 게임 시작
+    if (state === "play") {
       initializeGame();
-      setGameVisibleB(true);
-      setGameStartedB(true);
-      lives = 3;
-
       drawGame();
+    }
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 정리
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler, false);
+      document.removeEventListener("keyup", keyUpHandler, false);
+      document.removeEventListener("mousemove", mouseMoveHandler, false);
+      document.removeEventListener("touchstart", touchMoveHandler, false);
+      document.removeEventListener("touchmove", touchMoveHandler, false);
     };
-  }, [gameStartedB]);
+  }, [state]);
 
   return (
     <div className="breakout">
       <h1>Break Out!</h1>
       <span>막대를 이용해 벽돌을 제거하세요!</span>
       <span>볼의 속도와 각도는 랜덤입니다 ☄️☄️</span>
-      {gameVisibleB && <canvas id="myCanvas" width="560" height="400" />}
+      <canvas id="myCanvas" width="560" height="400" />
       <div className="btnFlex">
         <div className="startBtn">
-          {!gameStartedB && (
-            <li className="list__item" onClick={startGame}>
-              <a className="buttonStart">
-                <span>start</span>
-              </a>
-            </li>
-          )}
+          <li className="list__item" onClick={() => setState("play")}>
+            <a className="buttonStart">
+              <span>start</span>
+            </a>
+          </li>
         </div>
         <div className="backBtn">
           <BackButton />
@@ -272,4 +287,4 @@ const BreakOut: React.FC = () => {
   );
 };
 
-export default BreakOut;
+export default BreakOutCopy;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { BackButton } from "./Home";
-import { Button } from "@mui/material";
+import bakerImg from "/images/baker.png";
+import croissImg from "/images/croissant.png";
 
 interface ItemPos {
   x: number;
@@ -28,10 +29,6 @@ const Suberunker: React.FC = () => {
   const ref = useRef<HTMLCanvasElement>(null);
   const bakerRef = useRef<HTMLImageElement>(null);
   const croissRef = useRef<HTMLImageElement>(null);
-
-  //  canvas 변수 선언 및 초기화
-  const canvas = ref.current;
-  let paddleX = 0; // paddleX 값 추가
 
   //   떨어지는 크루아상 너비와 높이, 좌표 가지는 변수 선언
   const croissSizeRef = useRef({ w: 0, h: 0 });
@@ -153,7 +150,7 @@ const Suberunker: React.FC = () => {
 
     if (!cvs || !ctx || state !== "play") return;
     !bakerRef.current &&
-      loadImage("/images/baker.png").then((img) => {
+      loadImage(bakerImg).then((img) => {
         (bakerRef as any).current = img;
         const w = img.width / 6; //이미지 크기 조절
         const h = img.height / 6;
@@ -165,7 +162,7 @@ const Suberunker: React.FC = () => {
         };
       });
     !croissRef.current &&
-      loadImage("/images/croissant.png").then((img) => {
+      loadImage(croissImg).then((img) => {
         (croissRef as any).current = img;
         croissSizeRef.current.w = img.width / 8;
         croissSizeRef.current.h = img.height / 8;
@@ -228,8 +225,6 @@ const Suberunker: React.FC = () => {
     catchCroiss,
     state,
     initialGame,
-    paddleX,
-    canvas,
   ]);
 
   return (

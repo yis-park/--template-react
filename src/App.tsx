@@ -16,6 +16,7 @@ import BreakOut from "./BreakOut";
 import Memory from "./Memory";
 import Mario from "./Mario";
 import Suberunker from "./Suberunker";
+import BreakOutCopy from "BreakOutCopy";
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
@@ -76,7 +77,7 @@ const App: React.FC = () => {
           <div>
             <Routes>
               <Route path="/" element={<Home theme={theme} />} />
-              <Route path="/breakOut" element={<BreakOut />} />
+              <Route path="/breakOut" element={<BreakOutCopy />} />
               <Route path="/memory" element={<Memory />} />
               <Route path="/suberunker" element={<Suberunker />} />
               <Route path="/mario" element={<Mario />} />
