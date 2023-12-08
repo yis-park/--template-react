@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BackButton } from "./Home";
 import { Button } from "@mui/material";
 
-function BreakOut() {
+const BreakOut: React.FC = () => {
   const [gameStartedB, setGameStartedB] = useState(false);
   const [gameVisibleB, setGameVisibleB] = useState(false);
   let lives = 3;
@@ -251,19 +251,23 @@ function BreakOut() {
       <h1>Break Out!</h1>
       <span>막대를 이용해 벽돌을 제거하세요!</span>
       <span>볼의 속도와 각도는 랜덤입니다 ☄️☄️</span>
-      <div className="startBtn">
-        {!gameStartedB && (
-          <Button variant="contained" color="success" onClick={startGame}>
-            게임 시작
-          </Button>
-        )}
-      </div>
       {gameVisibleB && <canvas id="myCanvas" width="560" height="400" />}
-      <div className="backBtn">
-        <BackButton />
+      <div className="btnFlex">
+        <div className="startBtn">
+          {!gameStartedB && (
+            <li className="list__item" onClick={startGame}>
+              <a className="buttonStart">
+                <span>start</span>
+              </a>
+            </li>
+          )}
+        </div>
+        <div className="backBtn">
+          <BackButton />
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default BreakOut;

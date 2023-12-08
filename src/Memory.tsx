@@ -19,7 +19,7 @@ const Grid = styled.div<GridProps>`
   justify-items: center;
 `;
 
-function Memory() {
+const Memory: React.FC = () => {
   const [width, setWidth] = useState("340px");
   const [columns, setColumns] = useState("1fr 1fr");
   const [level, setLevel] = useState(1);
@@ -136,13 +136,7 @@ function Memory() {
     <div className="memoryGame">
       <h1>Memory Test Game !</h1>
       <span>순서를 잘 기억하세요! 점점 빨라지고 카드의 갯수가 많아집니다.</span>
-      <div className="startBtn">
-        {!gameStarted && (
-          <Button variant="contained" color="success" onClick={startGame}>
-            게임 시작
-          </Button>
-        )}
-      </div>
+
       {gameVisible && (
         <div className="memoryContent">
           {level < 11 ? (
@@ -172,12 +166,22 @@ function Memory() {
           )}
         </div>
       )}
-
-      <div className="backBtn">
-        <BackButton />
+      <div className="btnFlex">
+        <div className="startBtn">
+          {!gameStarted && (
+            <li className="list__item" onClick={startGame}>
+              <a className="buttonStart">
+                <span>start</span>
+              </a>
+            </li>
+          )}
+        </div>
+        <div className="backBtn">
+          <BackButton />
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Memory;

@@ -15,10 +15,11 @@ import Home from "./Home";
 import BreakOut from "./BreakOut";
 import Memory from "./Memory";
 import Mario from "./Mario";
+import Suberunker from "./Suberunker";
 
 const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
-function App() {
+const App: React.FC = () => {
   const [mode, setMode] = useState<"light" | "dark">("light");
 
   const colorMode = useMemo(
@@ -77,6 +78,7 @@ function App() {
               <Route path="/" element={<Home theme={theme} />} />
               <Route path="/breakOut" element={<BreakOut />} />
               <Route path="/memory" element={<Memory />} />
+              <Route path="/suberunker" element={<Suberunker />} />
               <Route path="/mario" element={<Mario />} />
             </Routes>
           </div>
@@ -84,6 +86,6 @@ function App() {
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
-}
+};
 
 export default App;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   Box,
-  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -15,18 +14,22 @@ import {
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
-import brickImg from "./img/brick.png";
-import cardImg from "./img/cards.png";
-import marioImg from "./img/mario.png";
+import brickImg from "/images/brick.png";
+import cardImg from "/images/cards.png";
+import marioImg from "/images/mario.png";
+import cookieImg from "/images/cookie.png";
 
 export const BackButton = () => {
   const navi = useNavigate();
   return (
-    <Button variant="contained" onClick={() => navi(-1)}>
-      Back
-    </Button>
+    <li className="list__item" onClick={() => navi(-1)}>
+      <a className="button">
+        <span>back</span>
+      </a>
+    </li>
   );
 };
+
 interface HomeProps {
   theme: Theme;
   // 다른 필요한 props들도 정의할 수 있습니다.
@@ -50,6 +53,13 @@ const Home: React.FC<HomeProps> = () => {
       des: "램덤으로 나열된 숫자카드를 순서대로 기억하는 게임",
       image: cardImg,
       link: "/memory",
+    },
+    {
+      title: "빵 먹는 제빵사",
+      difficulty: "상",
+      des: "똥피하기 게임 new Ver.",
+      image: cookieImg,
+      link: "/suberunker",
     },
     {
       title: "마리오 (준비중)",
@@ -118,21 +128,6 @@ const Home: React.FC<HomeProps> = () => {
           </Card>
         ))}
       </div>
-      {/* <div className="navBox">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/breakOut">🧱 Breaking Bricks</Link>
-            </li>
-            <li>
-              <Link to="/memory">📸 Memory game</Link>
-            </li>
-            <li>
-              <Link to="/mario">🕹️ Mario (testing ...)</Link>
-            </li>
-          </ul>
-        </nav>
-      </div> */}
     </div>
   );
 };
