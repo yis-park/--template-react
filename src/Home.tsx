@@ -11,11 +11,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
+
 import brickImg from "/images/brick.png";
-import cardImg from "/images/cards.png";
+import blocksImg from "/images/blocks.png";
 import marioImg from "/images/mario.png";
 import cookieImg from "/images/cookie.png";
 
@@ -32,7 +34,7 @@ export const BackButton = () => {
 
 interface HomeProps {
   theme: Theme;
-  // 다른 필요한 props들도 정의할 수 있습니다.
+  // 다른 필요한 props들도 정의 가능
 }
 
 const Home: React.FC<HomeProps> = () => {
@@ -51,7 +53,7 @@ const Home: React.FC<HomeProps> = () => {
       title: "Memory Test Game (카드기억게임)",
       difficulty: "중상",
       des: "램덤으로 나열된 숫자카드를 순서대로 기억하는 게임",
-      image: cardImg,
+      image: blocksImg,
       link: "/memory",
     },
     {

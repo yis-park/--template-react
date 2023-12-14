@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BackButton } from "./Home";
-import { Grade } from "@mui/icons-material";
 
 const BreakOutCopy: React.FC = () => {
   const [state, setState] = useState<"play" | "pause" | "stop">("stop");
@@ -10,8 +9,8 @@ const BreakOutCopy: React.FC = () => {
 
   let rightPressed = false;
   let leftPressed = false;
-  const brickRowCount = 6;
-  const brickColumnCount = 3;
+  const brickRowCount = 6; //한 행에 들어갈 벽돌(가로)
+  const brickColumnCount = 3; //한 열에 들어갈 벽돌(세로)
   const brickWidth = 75;
   const brickHeight = 20;
   const brickPadding = 10;
@@ -103,23 +102,24 @@ const BreakOutCopy: React.FC = () => {
       }
     }
 
+    // forEach로 가독성 향상 (기존 for)
     const drawBricks = () => {
-      for (let c = 0; c < brickColumnCount; c++) {
-        for (let r = 0; r < brickRowCount; r++) {
-          if (bricks[c][r].status === 1) {
-            let brickX = r * (brickWidth + brickPadding) + brickOffsetLeft;
-            let brickY = c * (brickHeight + brickPadding) + brickOffsetTop;
+      bricks.forEach((column, c) => {
+        column.forEach((brick, r) => {
+          if (brick.status === 1) {
+            const brickX = r * (brickWidth + brickPadding) + brickOffsetLeft;
+            const brickY = c * (brickHeight + brickPadding) + brickOffsetTop;
 
-            bricks[c][r].x = brickX;
-            bricks[c][r].y = brickY;
+            brick.x = brickX;
+            brick.y = brickY;
             ctx.beginPath();
             ctx.rect(brickX, brickY, brickWidth, brickHeight);
             ctx.fillStyle = "#B2533E";
             ctx.fill();
             ctx.closePath();
           }
-        }
-      }
+        });
+      });
     };
 
     const drawScore = () => {
@@ -135,11 +135,11 @@ const BreakOutCopy: React.FC = () => {
     };
 
     const drawBall = () => {
-      ctx.beginPath();
-      ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+      ctx.beginPath(); // 캔버스 내에서 새로운 Path 만들 때
+      ctx.arc(x, y, ballRadius, 0, Math.PI * 2); //원 그리는 method  x축과 y축 위치, 반지름 길이, 0은 원의 시작 각도, 2 * Math.PI는 원이 끝나는 각도(360도)
       ctx.fillStyle = ballColor;
       ctx.fill();
-      ctx.closePath();
+      ctx.closePath(); // Path 마칠 때
     };
 
     const drawPaddle = () => {
@@ -156,18 +156,17 @@ const BreakOutCopy: React.FC = () => {
     };
 
     const collisionDetection = () => {
-      for (let c = 0; c < brickColumnCount; c++) {
-        for (let r = 0; r < brickRowCount; r++) {
-          let b = bricks[c][r];
-          if (b.status === 1) {
+      bricks.forEach((column) => {
+        column.forEach((brick) => {
+          if (brick.status === 1) {
             if (
-              x > b.x &&
-              x < b.x + brickWidth &&
-              y > b.y &&
-              y < b.y + brickHeight
+              x > brick.x &&
+              x < brick.x + brickWidth &&
+              y > brick.y &&
+              y < brick.y + brickHeight
             ) {
               dy = -dy;
-              b.status = 0;
+              brick.status = 0;
               score++;
               ballColor = getRandomColor();
               if (score === brickRowCount * brickColumnCount) {
@@ -176,8 +175,8 @@ const BreakOutCopy: React.FC = () => {
               }
             }
           }
-        }
-      }
+        });
+      });
     };
 
     // 게임 로직 함수
@@ -230,10 +229,11 @@ const BreakOutCopy: React.FC = () => {
         y += dy;
       }
 
-      requestAnimationFrame(drawGame);
+      requestAnimationFrame(drawGame); //브라우저에게 수행하기를 원하는 애니메이션을 알리고 다음 리페인트가 진행되기 전에 해당 애니메이션을 업데이트하는 함수를 호출하게 함. 리페인트 이전에 실행할 콜백을 인자로 받음. 다른 위치에 있는 물체들은 계속해서 캔버스 위에 그려짐.
     };
 
     requestAnimationFrame(drawGame);
+
     // 초기 게임 로드 시 게임 시작
     if (state === "play") {
       initializeGame();
